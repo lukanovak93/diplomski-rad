@@ -1,5 +1,5 @@
-\section{Računalni vid}
-Računlani vid je veliko područje umjetne inteligencije koje se bavi algoritmima i metodama vezanim za obradu slike. Računalni vid podjeljen je u nekoliko podkategorija:
+\section{Kategorije računalnog vida}
+Računalni vid podjeljen je u nekoliko kategorija:
 \begin{enumerate}
 \item \textbf{Klasifikacija i Lokalizacija.} Ovo područje računalnog vida bavi se prepoznavanjem objekata na slici. To znači da algoritam odlučuje kojem razredu (\textit{engl.} class) pripada cijela slika. Pretpostavljajući navedeno, lokalizacija je proces pronalaženja pozicije objekta na slici. Rezultat procesa lokalizacije obično je crtanje okvira (\textit{engl.} bounding box) oko objekta na slici. Pobjednici natjecanja "Large Scale Visual Recognition Challenge 2017 (ILSVRC2017)" u kategoriji klasifikacije pobijedili su sa rezultatom od 2.251\% pogreške, dok su pobjednici u kategoriji lokalizacije postigli rezultat sa greškom od 6.226\%. Sa slike \ref{img:ILSVRC} vidi se da su se razultati u odnosu na 2016. godinu popravili za 0.8\% u kategoriji klasifikacije te 1.5\% u kategoriji lokalizacije .
 \begin{figure}[htb]
@@ -63,9 +63,9 @@ Instancijska segmentacija (\textit{engl.} Instance segmentation) ide i korak dal
 	\label{img:instanceSegmentation}
 \end{figure}
 
-\item Ostale kategorije računalnog vida koje su manje zastupljene: Super-resolution, Style Transfer, Colourisation 
+\item Ostale, manje zastupjene, kategorije računalnog vida : Super-resolution, Style Transfer, Colourisation 
 
-\begin{figure}[htb]
+\begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.4\linewidth}
 		\includegraphics[width=\linewidth]{img/OriginalSRGAN.png}
@@ -79,14 +79,14 @@ Instancijska segmentacija (\textit{engl.} Instance segmentation) ide i korak dal
 	\label{img:SRGAN}
 \end{figure}
 
-\begin{figure}[htb]
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=\linewidth]{img/StyleTransfer.png}
 	\caption{Prva slika prikazuje originalnu \textit{Mona Lisu}, druga slika prikazuje sliku naslikanu u stilu kubizma/ekspresionizma, treća slika prikazuje stil druge slike prenesen na prvu sliku}
 	\label{img:styleTransfer}
 \end{figure}
 
-\begin{figure}[htb]
+\begin{figure}[H]
 	\centering
 	\begin{subfigure}[b]{0.4\linewidth}
 		\includegraphics[width=\linewidth]{img/ColourisationOriginal.png}

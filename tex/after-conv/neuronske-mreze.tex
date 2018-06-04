@@ -133,6 +133,67 @@ f(net)=\left\{
 \label{img:linear-tlu}
 \end{figure}
 
+Najčešća aktivacijska funkcija jest sigmoida. Vrlo važno svojstvo ove funkcije koje ju razlikuje od dosad navedenih funkcija jest da je derivabilna. To će se pokazati kao vrlo važna značajka za proces učenja neuronske mreže. Sigmoida je definirana kao:
+
+\begin{equation}
+f(net) = \frac{1}{1 + e^{-a net}}
+\label{eq:sigmoid}
+\end{equation}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=8cm]{img/Sigmoid.png}
+\caption{Sigmoidlana (logistička) funkcija}
+\label{img:sigmoid}
+\end{figure}
+
+gdje parametar $a$ određuje nagib funkcije. Vrlo važno svojstvo sigmoide je da sve brojeve iz bilo kojeg intervala preslikava na raspon $[0,1]$. Zbog toga vrlo često izlaz iz logističke funkcije ima vjerojatnosnu interpretaciju, odnosno koristi se kada je na izlazu potrbno predvijeti vjerojatnosti. Važno je napomenuti da se sigmoida u području strojnog učenja koristi kada model ima binarni izlaz (predviđa 2 klase), dok se za višeklasnu regresiju/klasifikaciju koristi softmax:
+
+\begin{equation}
+f(net) = \frac{e^{net_i}}{\sum_{j=1}^{k} e^{net_j}}
+\label{eq:sigmoid}
+\end{equation}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=8cm]{img/Sigmoid.png}
+\caption{Sigmoidlana (logistička) funkcija}
+\label{img:sigmoid}
+\end{figure}
+
+Softmax je generalizirana sigmoida. Izlaz iz funkcije softmax također vrlo često ima vjerojatnosnu interpretaciju. 
+
+Zadnja aktivacijska funkcija koju ovdje valja spomenuti je ReLU (\textit{engl. Rectified Linear Unit}). 
+
+\begin{equation}
+f(net) = max(0, net)
+\label{eq:relu}
+\end{equation}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=8cm]{img/ReLU.png}
+\caption{ReLU}
+\label{img:relu}
+\end{figure}
+
+Ova aktivacijska funkcija je vrlo raširena u računalnom vidu i vrlo popularna kod konvolucijskih neuronskih mreža. Problem je što ova funkcija sve negativne vrijednosti stavlja u $0$ što smanjuje mogućmost modela da potpuno izvuče znanje iz podataka. Zato je osmišljena još jedna funkcija koja ne preslikava negativne vrijednosti u 0, nego u neku vrijednost blizu $0$ (što je vrijednost negativnija, preslikava se u vrijednost dalje od $0$). Ta funkcija naziva se "Leaky ReLU":
+
+\begin{equation}
+f(net)=\left\{
+\begin{array}{c l}	
+     a {net}   & $\textit{za net} $ < $ $ 0,\\
+     {net}     & $\textit{za net} $ \geq $ $ 0
+\end{array}\right.
+\label{eq:Leaky ReLU}
+\end{equation}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=8cm]{img/LeakyReLU.png}
+\caption{Leaky ReLU}
+\label{img:Leaky ReLU}
+\end{figure}
 
 
 

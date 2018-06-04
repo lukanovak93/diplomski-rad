@@ -1,0 +1,19 @@
+Povijest prepoznavanja (detekcije) objekata seže puno dalje od konvolucijskih neuronskih mreža. Prvi sustavi detekcije objekata problemu su prilazili geometrijski. Neki od takvih pristupa bili su:
+
+\begin{itemize}
+\item \textbf{poravnanje} gdje se pokušavalo pronaći takvu transformaciju slike koja bi minimizirala pogrešku:
+\[\sum_{i} residual(T(x_i), x_i')\]
+
+Ovaj period trajao je od ranih 60ih do početka 90ih godina prošlog stoljeća. Uglavnom se pokušavalo riješiti problem detekcije razlamanjem objekata na slici u manje komponente (\textit{engl. Block world}, L. G. Roberts Machine Perception of Three Dimensional Solids, 1963.).
+\item \textbf{modeli temeljeni na izgledu} (\textit{engl. appearance - based models}) su modeli temeljeni na svojstvenim vrijednostima (Eigenfaces for Recognition, Turk and Pentland, 1991.) te histogramima boja (Swain and Ballard, IJCV 1991.)
+\item \textbf{klizeći prozor} pristup koji se donekle i danas primjenjuje. Ovaj pristup smatra se početkom "modernog doba" računalnog vida, iako se klizeći prozor koristi u najjednostavnijijm mogućim oblicima. Ovaj period počinje ranih 90ih godina, a predvode ih Turk and Pentland svojim radom "Eigenfaces for Recognition" izdanim 1991. godine, a vrhunac se potiže 2001. godine objavljivanjem algoritma koji su razvili Viola i Jones.
+\item \textbf{lokalne značajke} (\textit{engl. local features}) gdje su oblici predmeta koje je potrebno detektirati djelomično poznati (D. Lowe, 2004.). U tom periodu Google razvija i prvi pretraživač slika. 
+\item \textbf{parts-and-shape modeli} koji koriste kombinaciju više vrsta značajki: ponovo razlamaju objekte na dijelove, relativne odnose između tih dijelova te samu prisutnost dijelova objekta (Weber, Welling and Perona, 2000.).
+\item \textbf{bags-of-features modeli} uvode prepoznavanje tekstura. Klasični bag-of-features modeli imaju standardizirane korake (\textit{engl. pipeline}): 
+\begin{enumerate}
+\item Feature extraction
+\item Learn "visual vocabulary"
+\item Quantize features using visual vocabulary
+\item Represent images by frequencies of “visual words”
+\end{enumerate}
+\end{itemize}
