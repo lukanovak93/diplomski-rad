@@ -1,0 +1,14 @@
+Ovaj zadatak potrebno je razlomiti na nekoliko podzadataka:
+\begin{itemize}
+	\item detekcija osoba
+	\begin{itemize}
+		\item lokalizacija
+		\item klasifikacija
+	\end{itemize}
+	\item praćenje objekata na videu
+\end{itemize}
+
+
+\section{Korišteni alati}
+
+U ovom radu, algoritmi su implementirani u programskom jeziku \textbf{Python} verzije 3.6.5. na operacijskom sustavu Ubuntu Linux 18.04. Za konstrukciju neuronskih mreža korištena je biblioteka \textbf{Keras}. Keras je relativno nova biblioteka te je svojevrsna apstrakcija \textit{Tensorflow-a} jer pojednostavljuje konstrukciju mreže na način da se slojevi "sami brinu" o dimenzijama. Programer mora samo definirati ulaznu dimenziju podataka te izlaznu dimenziju. Ostalo biblioteka napravi sama. Iz tog razloga je vrlo popularna te je primarno namjenjena brzom prototipiziranju mreža, dok su performanse u drugom planu. U Kerasu, autor može birati nekoliko biblioteka za neuronske mreže koje u pozadini odrađuju posao kao što su \textbf{Tensorflow}, \textbf{CNTK} i \textbf{Theano}. U implementaciji se u pozadini koristi \textbf{Tensorflow}. Keras u pozadini koristi i standardne biblioteke kao što su \textit{NumPy, Scipy} i sl. za numeričke i ostale operacije. Za Viola-Jones algoritam, kao i učitavanje slika i videa, spremanje i crtanje okvira korištena je biblioteka \textit{OpenCV}.

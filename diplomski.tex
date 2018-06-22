@@ -2,6 +2,18 @@
 \usepackage{booktabs}
 \usepackage{float}
 \usepackage{subcaption}
+\usepackage[ruled, vlined]{algorithm2e}
+\usepackage{amsmath}
+\usepackage{listings}	
+\usepackage{color}
+
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},
+}
+
+\lstset{style=mystyle}
 
 \newcommand{\source}[1]{\vspace{-12pt} \caption*{\textbf{Source}: {#1}} }
 \renewcommand{\labelitemi}{\textbullet}
@@ -12,10 +24,10 @@
 \thesisnumber{000}
 
 % TODO: Navedite naslov rada.
-\title{Naslov}
+\title{Brojanje ljudi u sceni}
 
 % TODO: Navedite vaše ime i prezime.
-\author{Arthur Dent}
+\author{Luka Novak}
 
 \maketitle
 
@@ -43,10 +55,14 @@
 \input{tex/after-conv/cnn.tex}
 
 \chapter{Skupovi podataka}
-
-\chapter{Opis alata}
+\input{tex/datasets/datasets.tex}
 
 \chapter{Implementacija}
+\input{tex/implementation/tools.tex}
+\input{tex/implementation/implementation.tex}
+
+\chapter{Eksperimentalni rezultati}
+\input{tex/results/results.tex}
 
 \chapter{Zaključak}
 Zaključak.

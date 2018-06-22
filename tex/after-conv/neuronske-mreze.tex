@@ -80,6 +80,18 @@ Neuronske mreže odlično rješavaju sve probleme kod kojih postoji odnos izmeđ
 \item simulacije i mnogi drugi
 \end{itemize}
 
+Način na koji su neuroni međusobno organizirani i povezani u mreži određuju njezinu
+arhitekturu. Razlikujemo četiri osnovne arhitekture:
+
+\begin{itemize}
+\item aciklička unaprijedna (\textit{engl. feedforward net}) mreža
+\item mreža s povratnom vezom (\textit{engl. recurrent net})
+\item lateralno povezana mreža
+\item hibridna mreža
+\end{itemize}
+
+U ovom radu proučavat će se konvolucijske neuronske mreže koje spadaju u kategoriju unaprijednih acikličkih mreža. U konvolucijskim mrežama kao aktivacijske funkcije koriste se ReLu i sigmoidalna funkcija koje su opisane u nastavku.
+
 
 \subsection{Aktivacijske funkcije}
 
@@ -195,6 +207,54 @@ f(net)=\left\{
 \label{img:Leaky ReLU}
 \end{figure}
 
+\subsection{Backpropagation algoritam}
 
+Kako bi neuronska mreža mogla predstaviti visoko nelinearne
+funkcije, potrebno je da prijenosna funkcija njezinih procesnih elemenata i sama bude
+nelinearna funkcija svojih ulaza. Nadalje, radi primjene gradijentne metode pri postupku
+učenja mreže, potrebno je da prijenosna funkcija bude derivabilna funkcija težinskih
+faktora. Backpropagation algoritam \citep{Backpropagation} nastao je 1970ih godina te omogućuje učenje višeslojnih neuronskih mreža.
 
-sources: https://medium.com/the-theory-of-everything/understanding-activation-functions-in-neural-networks-9491262884e0
+Algoritam koristi metodu gradijentnog spusta kako bi minimizirao nastalu pogrešku.
+Kod višeslojne mreže izlazni sloj može sačinjavati veći broj neurona, te je potrebno
+proširiti definiciju pogreške za višestruke izlaze:
+
+\begin{equation}
+E(\vec{w}) = \frac{1}{2} \sum_{d \in D}^{} \sum_{k \in outputs}^{} (t_{kd} - o_{kd})^2
+\label{eq:loss-function}
+\end{equation}
+
+pri čemu su $t_{kd}$ i $o_{kd}$ ciljna i stvarna izlazna vrijednost za $k$-ti neuron izlaznog sloja dobivene s primjerom za učenje $d$. Učenje višeslojne mreže backpropagation algoritmom svodi se na pretraživanje u n-dimenzionalnom prostoru hipoteza, gdje je n ukupan broj težinskih faktora u mreži. Pogrešku u takvom prostoru možemo vizualizirati kao hiper-površinu koja, za razliku od paraboličke površine jednog procesnog elementa, može sadržavati više lokalnih minimuma u kojima gradijentni spust može zaglaviti. No, u praksi se pokazalo da algoritam daje vrlo dobre rezulatate. Također, postoje i poboljšanja algoritma dodavanjem momenta inercije \citep{NesterovMomentum}.\\
+
+\begin{algorithm}[H]
+\caption{Backpropagation algoritam}
+\SetAlgoLined
+%\KwResult{Write here the result }
+ inicijalizacija težina na male slučajne vrijednosti\;
+ \While{ $\Delta \varepsilon < \varepsilon_{thresh}$ }{
+  izračunaj $o_{i}$ za svaku ulaznu jedinicu $x_{i}$ ulaza $\mathbf{X}$\;
+  za svaki izlazni čvor $k$ izračunaj pogrešku $\delta_{k}$
+  \begin{equation}
+	\delta_{k} \leftarrow o_{k} (1 - o_{k})(t_{k} - o_{k})
+	\label{eq:output_unit_loss}
+  \end{equation}
+  za svaku skrivenu jedinicu $h$ izračunaj pogrešku $\delta_{h}$
+  \begin{equation}
+	\delta_{h} \leftarrow o_{h} (1 - o_{h}) \sum_{s \in Downstream(h)}^{}(\omega_{hs}\delta_{s})
+	\label{eq:hidden_unit_loss}
+  \end{equation}
+  ažurirati sve težine $\omega_{ij}$
+  \begin{equation}
+	\omega_{ij} \leftarrow \omega_{ij} + \Delta\omega_{ij}
+	\label{eq:update_weights}
+  \end{equation}
+  gdje je 
+  \begin{equation}
+	\Delta\omega_{ij} \leftarrow \eta \delta_{j} x_{ij}
+	\label{eq:weight_update}
+  \end{equation}
+ }
+ \label{alg:backprop}
+\end{algorithm}
+
+Zato što primjeri za učenje određuju ciljne vrijednosti samo izlaznog sloja neurona, poznata nam je jedino pogreška izlaznog sloja \ref{eq:loss-function}. Javlja se pitanje: kako ažurirati težine u skrivenom sloju? Backpropagation algoritam računa pogrešku bilo kojeg skrivenog neurona $h$ tako da zbraja pogreške $\delta$ s svih onih neurona s na koje utječe izlaz neurona $h$, uz dodatno množenje težinskim faktorom $\omega_{hs}$. Faktor ukazuje na to u kojoj je mjeri skriveni neuron $h$ pridonio nastanku pogreške na izlazu jedinice $s$. Skup $Downstream(h)$ jest skup svih neurona "nizvodno" od neurona $h$, tj. svi oni neuroni čiji ulazi uključuju izlaz iz neurona $h$.
