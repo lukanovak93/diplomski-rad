@@ -2,7 +2,7 @@
 
 Kao primjer algoritama za detekciju objekata implementiran je i algoritam Viole i Jonesa opisan u poglavlju 3.2. Algoritam je implementiran korištenjem biblioteke \textit{OpenCV}.
 
-Algoritam prima nekoliko ulaznih parametara od kojih je obavezan samo parametar "- -video" kojim se zadaje video na kojem da se vrši detekcija i praćenje osoba. Parametar "- -win-stride" je uređeni par vrijednosti $(x, y)$ koji određuje korak u smijeru $x$ i $y$ osi po kojima se kreće klizeći prozor. Zadana vrijednost je $(8, 8)$. Idući bitan parametar je "--scale". Ovaj parametar omogučuje detekciju ljudi različitih veličina na slici (i ljudi koji su blizu i ljudi koji su daleko). Povećanjem ovog parametra povećava se i rizik da ne budu detektirani svi objekti, ali istovremeno se algoritam i ubrzava. Obrnuto, smanjenjem ovog parametra algoritam detektira više objekata i usporava mu se rad. Posljedično, javlja se i više false-positivea. U implementaciji je ovaj algoritam postavljen na vrijednost $1.05$. Ostavljena je i mogućnost spremanja svake slike u videu (svakog \textit{framea}) parametrom "- -save" radi kasnije evaluacije. 
+Algoritam prima nekoliko ulaznih parametara od kojih je obavezan samo parametar "- -video" kojim se zadaje video na kojem da se vrši detekcija i praćenje osoba. Parametar "- -win-stride" je uređeni par vrijednosti $(x, y)$ koji određuje korak u smijeru $x$ i $y$ osi po kojima se kreće klizeći prozor. Zadana vrijednost je $(8, 8)$. Idući bitan parametar je "--scale". Ovaj parametar omogućuje detekciju ljudi različitih veličina na slici (i ljudi koji su blizu i ljudi koji su daleko). Povećanjem ovog parametra povećava se i rizik da ne budu detektirani svi objekti, ali istovremeno se algoritam i ubrzava. Obrnuto, smanjenjem ovog parametra algoritam detektira više objekata i usporava mu se rad. Posljedično, javlja se i više false-positiva. U implementaciji je ovaj algoritam postavljen na vrijednost $1.05$. Ostavljena je i mogućnost spremanja svake slike u videu (svakog \textit{framea}) parametrom "- -save" radi kasnije evaluacije. 
 
 \begin{figure}[htp]
 	\centering
@@ -19,13 +19,14 @@ Prije ovog algoritma, detekcija objekata se vršila pomoću klasifikatorskih ili
 
 \subsection{Dizajn i svojstva mreže}
 
-\bigskip
+U tablici \ref{tab:yolo_architecture} prikazana je arhitektura mreže Yolo. Radi preglednosti tablice, pod slojem Conv podrazumijeva se konvolucijski sloj dimenzija kako su napisane, Batch Normalization sloj koji, kako mu samo ime kaže, služi na normalizaciju \textit{batcha}, poboljšava konvergenciju modela dok istovremeno služi i kao regularizator. Na kraju je dodan i Leaky ReLu sloj.
+
 \begin{minipage}{\linewidth}
 \centering
 
 \begin{tabular}{||l|l|l|l|l||}
 \hline
-	Name & Filters & Stride & Input Dimension & Output Dimension \\
+	Ime sloja & Filteri & Korak & Dimenzije na ulazu & Dimenzije na izlazu \\
 \hline
 	Conv1 & 3 x 3 x 32 & 1 x 1 & 416 x 416 x   3 & 416 x 416 x  32 \\
 \hline
@@ -96,21 +97,19 @@ Prije ovog algoritma, detekcija objekata se vršila pomoću klasifikatorskih ili
 \captionof{table}{Yolo arhitektura} \label{tab:yolo_architecture} 
 \end{minipage}
 
-U tablici \ref{tab:yolo_architecture} prikazana je arhitektura mreže Yolo. Radi preglednosti tablice, pod slojem Conv podrazumijeva se konvolucijski sloj dimenzija kako su napisane, Batch Normalization sloj koji, kako mu samo ime kaže, služi na normalizaciju \textit{batcha}, poboljšava konvergenciju modela dok istovremeno služi i kao regularizator. Na kraju je dodan i Leaky ReLu sloj.
-
-\subsection{Podijela slike}
+\subsection{Podjela slike}
 \label{cells-section}
 
-Kada se na ulaz mreže dovede slika, prva stvar koju mreža napravi jest da podijeli sliku u \textbf{C} x \textbf{C} čelija kao što to prikazuje slika \ref{img:yolo_grid_cells}. Svaka od tih čelija predviđa točno \textbf{jedan} objekt. Primjerice, žuta čelija na slici pokušava predvidjeti objekt klase osoba čiji se centar (plava točka na slici desno) nalazi unutar te čelije.
+Kada se na ulaz mreže dovede slika, prva stvar koju mreža napravi jest da podijeli sliku u \textbf{C} x \textbf{C} ćelija kao što to prikazuje slika \ref{img:yolo_grid_cells}. Svaka od tih ćelija predviđa točno \textbf{jedan} objekt. Primjerice, žuta ćelija na slici pokušava predvidjeti objekt klase osoba čiji se centar (plava točka na slici desno) nalazi unutar te čelije.
 
 \begin{figure}[htp]
 	\centering
 	\includegraphics[width=10cm]{/home/luka/Workspaces/diplomski-rad/img/Yolo_grid.jpeg}
-	\caption{Podijela slike na \textbf{C} x \textbf{C} čelija}
+	\caption{Podijela slike na \textbf{C} x \textbf{C} ćelija}
 	\label{img:yolo_grid_cells}
 \end{figure}
 
-Svaka čelija predviđa fiksan broj okvira (\textit{engl. bounding boxes}. Na slici \ref{img:boundig_boxes} žuta čelija predviđa dva okvira kako bi locirala osobu na slici. 
+Svaka ćelija predviđa fiksan broj okvira (\textit{engl. bounding boxes}. Na slici \ref{img:bounding_boxes} žuta ćelija predviđa dva okvira kako bi locirala osobu na slici. 
 
 \begin{figure}[htp]
 \centering
@@ -128,10 +127,10 @@ Za svaku čeliju \textbf{C} algoritam predviđa:
 	\item \textbf{P} vjerojatnosti, po jednu za svaku klasu \textbf{C}
 \end{itemize}
 
-Ulaz u mrežu može biti proizvoljne veličine, no mreža YOLO preoblikuje ulaz u dimenzije $416\times416\times3$ kako bi ga mogao dovesti na ulaz u mrežu. Mreža dijeli sliku na $13\times13$ čelija. Svaka čelija predviđa 5 okvira za objekt koji se nalazi u toj čeliji (ako se nalazi), te svaki od okvira ima 85 parametara. Izlaz iz mreže je oblika $(13, 13, 425)$. U svrhu razumijevanja izlaza iz mreže, zgodno ga je zamisliti kao kompozit tri tenzora:
+Ulaz u mrežu može biti proizvoljne veličine, no mreža YOLO preoblikuje ulaz u dimenzije $416\times416\times3$ kako bi ga mogao dovesti na ulaz u mrežu. Mreža dijeli sliku na $13\times13$ ćelija. Svaka ćelija predviđa 5 okvira za objekt koji se nalazi u toj čeliji (ako se nalazi), te svaki od okvira ima 85 parametara. Izlaz iz mreže je oblika $(13, 13, 425)$. U svrhu razumijevanja izlaza iz mreže, zgodno ga je zamisliti kao kompozit tri tenzora:
 
 \begin{itemize}
-	\item pouzdanost okvira \textit{(engl. box\_confidence)} kao tenzor dimenzije $(13\times13, 5, 1)$ koji sadrži $p_c$ pouzdanost postojanja objekta u svakom od 5 predviđenih okvira u čeliji \textbf{C} za svaku od $13\times13$ čelija
+	\item pouzdanost okvira \textit{(engl. box\_confidence)} kao tenzor dimenzije $(13\times13, 5, 1)$ koji sadrži $p_c$ pouzdanost postojanja objekta u svakom od 5 predviđenih okvira u čeliji \textbf{C} za svaku od $13\times13$ ćelija
 	\item okviri \textit{(engl. boxes)} kao tenzor dimenzije $(13\times13, 5, 4)$ koji sadrži $(x_{top}, y_{top}, x_{bottom}, y_{bottom})$ za svaki od 5 okvira u čeliji
 	\item vjerojatnosti klasa za okvire \textit{(engl. box\_class\_prob)} kao tenzor dimenzije $(13\times13, 5, 80)$ koji čuva informaciju o pouzdanosti za svaku od 80 klasa za svaki od 5 okvira u čeliji.
 \end{itemize}
@@ -139,15 +138,15 @@ Ulaz u mrežu može biti proizvoljne veličine, no mreža YOLO preoblikuje ulaz 
 \begin{figure}[htp]
 	\centering
 	\includegraphics[width=8 cm]{/home/luka/Workspaces/diplomski-rad/img/yolo_grid.jpeg}
-	\caption{Neparan i paran broj čelija po dimenzij}
+	\caption{Neparan i paran broj ćelija po dimenziji}
 	\label{img:yolo-grid}
 \end{figure}
 
-Kao što prikazuje slika \ref{img:yolo-grid}, neparan broj čelija po dimenziji (npr. $13\times13$) je pogodan jer je jednostavnije odrediti u kojoj se čeliji objekt nalazi.
+Kao što prikazuje slika \ref{img:yolo-grid}, neparan broj ćelija po dimenziji (npr. $13\times13$) je pogodan jer je jednostavnije odrediti u kojoj se čeliji objekt nalazi.
 
 \subsection{Funkcija gubitka}
 
-Yolo algoritam predviđa više okvira po jendoj čeliji na slici. Od svih tih čelija, potrebno je zadržati samo one u kojima se zaista nalazi objekt. U tu svrhu, izabire se ona čelija koja ima naveći IoU (\textit{engl. Intersection over Union}) sa stvarnim objektom (\textit{engl. ground truth}). Za računanje gubitka, Yolo koristi sumu kvadrata pogrešaka predviđanja algoritma i stvarnih objekata. Zbog ideje Yolo algoritma da se klasifikacija i lokalizacija rade istom mrežom u jednom prolasku, funkcija gubitka sastavljena je od nekoliko dijelova.
+Yolo algoritam predviđa više okvira po jendoj čeliji na slici. Od svih tih ćelija, potrebno je zadržati samo one u kojima se zaista nalazi objekt. U tu svrhu, izabire se ona ćelija koja ima naveći IoU (\textit{engl. Intersection over Union}) sa stvarnim objektom (\textit{engl. ground truth}). Za računanje gubitka, Yolo koristi sumu kvadrata pogrešaka predviđanja algoritma i stvarnih objekata. Zbog ideje Yolo algoritma da se klasifikacija i lokalizacija rade istom mrežom u jednom prolasku, funkcija gubitka sastavljena je od nekoliko dijelova.
 
 \begin{figure}[htp]
 	\centering
@@ -188,7 +187,7 @@ Yolo algoritam predviđa više okvira po jendoj čeliji na slici. Od svih tih č
 	
 	gdje 
 	\begin{itemize}
-		\item $1_{ij}^{obj} = 1$ ako se objekt nalazi u $j$-tom okviru $i$-te čelije, inače $0$
+		\item $1_{ij}^{obj} = 1$ ako se objekt nalazi u $j$-tom okviru $i$-te ćelije, inače $0$
 		\item $\lambda_{coord}$ parametar za ugađanje težine za pogrešku u koordinatama okvira
 	\end{itemize}
 	
@@ -206,7 +205,7 @@ Yolo algoritam predviđa više okvira po jendoj čeliji na slici. Od svih tih č
 		
 		gdje 
 		\begin{itemize}
-			\item $1_{ij}^{obj} = 1$ ako se objekt nalazi u $j$-tom okviru $i$-te čelije, inače $0$
+			\item $1_{ij}^{obj} = 1$ ako se objekt nalazi u $j$-tom okviru $i$-te ćelije, inače $0$
 			\item $\hat{C}_i$ jest iznos pouzdanosti za okvir $j$ u čeliji $i$
 		\end{itemize}
 		
@@ -250,7 +249,7 @@ Yolo algoritam predviđa više okvira po jendoj čeliji na slici. Od svih tih č
 	\label{img:yolo-anchors}
 \end{figure}
 
-Tako sada Yolo mreža predviđa koordinate okvira objekta direktno, no relativno u odnosu na pozicuju promatrane čelije od gornjeg lijevog ruba. Nadalje, okviri se predviđaju kao odstupanje od nekog od standardnih okvira. To odstupanje je ograničeno kako nebi bilo koji okvir mogao prijeći u bilo koji drugi jer se onda gubi smisao ovog cijelog postupka. Ograničavanjem odstupanja omogućeno je kako bi se svako predviđanje moglo opredjeliti za točno jedan oblik iz skupa standardnih okvira.
+Tako sada Yolo mreža predviđa koordinate okvira objekta direktno, no relativno u odnosu na pozicuju promatrane ćelije od gornjeg lijevog ruba. Nadalje, okviri se predviđaju kao odstupanje od nekog od standardnih okvira. To odstupanje je ograničeno kako nebi bilo koji okvir mogao prijeći u bilo koji drugi jer se onda gubi smisao ovog cijelog postupka. Ograničavanjem odstupanja omogućeno je kako bi se svako predviđanje moglo opredjeliti za točno jedan oblik iz skupa standardnih okvira.
 
 \subsection{Backbone}
 

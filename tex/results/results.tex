@@ -22,6 +22,25 @@ Algoritam Viole i Jones-a, iako osmišljen davno, koristi se i danas. Izuzetno j
 	\label{img:violaJones-detection}
 \end{figure}
 
+\begin{table}[h]
+\centering
+\begin{tabular}{|rcl|}
+\hline
+	Broj vidljivih osoba po slici & & 5.67\\
+\hline
+	Broj detekcija po slici videa & & 4.91\\
+\hline
+	True Positivea po slici & & 3.59\\
+\hline
+	False Positivea po slici & & 1.32\\
+\hline
+	Preciznost (precision) & & 73.11\%\\
+\hline
+\end{tabular}
+\caption{Rezultati Viola-Jones algoritma na videu Esquina Democratica}
+\label{tab:viola-jones-result}
+\end{table}
+
 Viola-Jones algoritam vrlo je pouzdan i dolazi sa većinom biblioteka specijaliziranih za računalni vid (\textit{OpenCV}). Za razliku od YOLO-a, ovaj algoritam ima nešto više false-positivea. Nekoliko slika sa pogrešnim označavanjem prikazano je na slici \ref{img:violaJones-fp}. Još jedan od nedostataka ovog algoritma jest osjetljivost na različite fotometrijske značajke (promjene svijetlosti). 
 
 \begin{figure}[htp]
@@ -38,15 +57,15 @@ Viola-Jones algoritam vrlo je pouzdan i dolazi sa većinom biblioteka specijaliz
 	\begin{subfigure}[b]{0.4\linewidth}
 		\includegraphics[width=\linewidth]{/home/luka/Workspaces/diplomski-rad/img/ViolaJonesFrames/frame_17.png}
 	\end{subfigure}
-	\caption{Primjer detekcije Viola-Jones algoritmom}
-	\label{img:violaJones-detection}
+	\caption{Primjer false positive detekcije Viola-Jones algoritma}
+	\label{img:violaJones-fp}
 \end{figure}
 
 \section{YOLO}
 
 Ovaj je algoritam, u originalnom obliku, implementiran u programskom jeziku C te je izuzetno brz. U radu se spominje da na grafičkoj kartici NVidia Titan X postiže brzine od 45 do 90 FPS (\textit{engl. Frames Per Second}) što je izuzetno brzo, uzimajući u obzir i izvanrednu točnost modela. Implementacija u ovom radu je nešto sporija zbog nekoliko razloga: agloritam je implementiran u programskom jeziku Python, a što je još važnije, izvršava se na procesoru (CPU).
 
-U ovoj implementaciji za procesiranje slike potrebno je vrijeme od 3.5 do 6 sekundi, ovisno o slici. Tu je uračunato nekoliko komponenti čija se vremena izvođenja nalaze u tablici \ref{tab:img-performance} te slici \ref{img:img-performace-terminal}.
+U ovoj implementaciji za procesiranje slike potrebno je vrijeme od 3.5 do 6 sekundi, ovisno o slici. Tu je uračunato nekoliko komponenti čija se vremena izvođenja nalaze u tablici \ref{tab:img-performance} te slici \ref{img:img-performance-terminal}.
 
 \begin{center}
 \begin{lstlisting}[language=Awk, caption=Poziv programa za jednu sliku]
@@ -137,6 +156,45 @@ Ovaj algoritam je, kao predvodnik u kategoriji algoritama za detekciju objekata,
 	\label{img:tracking}
 \end{figure}
 
+\begin{figure}[htp]
+	\centering
+	\begin{subfigure}[b]{0.4\linewidth}
+		\includegraphics[width=\linewidth]{/home/luka/Workspaces/diplomski-rad/img/YoloGraph.png}
+		\caption{Brzina i preciznost na skupu podataka VOC2007}
+		\label{img:yolo_graph}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.4\linewidth}
+		\includegraphics[width=\linewidth]{/home/luka/Workspaces/diplomski-rad/img/YoloTable.png}
+		\caption{Usporedba raznih metoda za detekciju objekata}
+		\label{img:yolo_table}
+	\end{subfigure}
+\caption{Rezultati YOLO algoritma}
+\label{img:yolo_paper}
+\end{figure}
+
+Podaci sa slike \ref{img:yolo_graph} i \ref{img:yolo_table} preuzeti su iz rada \citep{YOLO}. Na slici \ref{img:yolo_table} vidljivo je nekoliko rezultata za YOLO algoritam. Jedina razlika između tih rezultata je veličina slike koja se dovodi na ulaz mreže. Logično, ako je ulaz manji, točnost je manja ali brzina je veća. Obrnuto, točnost je veća ali pod cijenu nešto sporijeg izvođenja. U ovom radu, istraživanje je provedeno na videu. Kako bi se izračunala točnost na ovom videu, kao i za Viola-Jones algoritam, računat je prosijek točnosti na spremljenim frameovima. Za YOLO to izgleda ovako:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|rcl|}
+\hline
+	Broj vidljivih osoba po slici & & 5.67\\
+\hline
+	Broj detekcija po slici videa & & 5.16\\
+\hline
+	True Positivea po slici & & 4.53\\
+\hline
+	False Positivea po slici & & 0.32\\
+\hline
+	Preciznost (precision) & & 87.79\%\\
+\hline
+\end{tabular}
+\caption{Razultati YOLO algoritma na videu Esquina Democratica}
+\label{tab:Yolo_result}
+\end{table}
+
+Ovdje je točnost bolja nego u radu, ali stvar je u tome da je ovaj video izabran radi pračenja trajektorija te zato broj ljudi koji prolaze ulicom i nalaze se na slici nije toliko velik, samo 5.67 osoba po slici u prosjeku.
+
 Video je zapravo niz slika pa se tada ovaj problem svodi na provođenje ovog algoritma za svaku sliku u videu (24 slike u sekundi). Kao što je već navedeno, u eksperimentima se algoritam izvodi na CPU, pa je stoga uvedena zastavica pri pozivu algoritma koja određuje koliko će slika u videu algoritam preskočiti prije nego uzme iduću sliku na obradu i predviđanje. Tako je moguće ubrzati izvođenje programa, te ako se osobe na slici kreću sporije, u nekoj koloni, moguće je, i čak poželjno, postaviti ovaj parametar na neki veći broj. Tada se standardni poziv programa u terminalu mijenja na sljedeći način:
 \begin{center}
 \begin{lstlisting}[language=Awk, caption=Poziv programa sa opcijom preskakanja zadanog broja (n) slika u videu]
@@ -156,7 +214,7 @@ python3 eval.py --threshold=n --video='path/to/video'
 \begin{figure}[htp]
 	\centering
 	\includegraphics[width=8cm]{/home/luka/Workspaces/diplomski-rad/img/threshold_impact.png}
-	\caption{Rezultat ako se postavi prag na vrijednost 0 \citep{YOLO}}
+	\caption{Rezultat ako se preg postavi na vrijednost 0 \citep{YOLO}}
 	\label{img:threshold-impact}
 \end{figure}
 

@@ -21,10 +21,10 @@
 \begin{document}
 
 % TODO: Navedite broj rada.
-\thesisnumber{000}
+\thesisnumber{1586}
 
 % TODO: Navedite naslov rada.
-\title{Brojanje ljudi u sceni}
+\title{Metode za brojanje ljudi u slici}
 
 % TODO: Navedite vaše ime i prezime.
 \author{Luka Novak}
@@ -35,7 +35,12 @@
 \izvornik
 
 % Dodavanje zahvale ili prazne stranice. Ako ne želite dodati zahvalu, naredbu ostavite radi prazne stranice.
-\zahvala{}
+\zahvala{Zahvala\\  \\
+Zahvaljujem se svom mentoru, Prof. dr. sc. Svenu Lončariću, na savjetima, strpljenju
+i stručnoj pomoći. Posebice mu se zahvaljujem na podršci i hrpi pitanja o pronalaženju vlastitog puta u stručnom i akademskom usavršavanju. \\ 
+Zahvaljujem se svojoj obitelji na motivaciji i podršci u svemu što radim. Bez njih, njihove ljubavi, savjeta i vjere u mene, nebih mogao ovliko postići.\\ 
+Na kraju, želja mi je zahvaliti se kolegama Domgoju Krivošiću i Lovri Filipoviću na nesebičnoj uzajamnoj pomoći i motivaciji u učenju, svladavanja zajedničkih predmeta i ispunjavanju svih, a posebice administracijskih obveza na fakultetu.}
+
 
 \tableofcontents
 
@@ -65,23 +70,22 @@
 \input{tex/results/results.tex}
 
 \chapter{Zaključak}
-Zaključak.
+\input{tex/zakljucak.tex}
 
 \bibliography{literatura}
 \bibliographystyle{fer}
 
 \begin{sazetak}
-Sažetak na hrvatskom jeziku.
+\input{tex/sazetak.tex}
 
-\kljucnerijeci{Ključne riječi, odvojene zarezima.}
+\kljucnerijeci{neuronske  mreže,  duboke  neuronske  mreže,  konvolucijske  neuronske mreže, računalni vid, raspoznavanje uzoraka, duboko učenje, Viola-Jones algoritam, Haarove kaskade, YOLO, praćenje trajektorija}
 \end{sazetak}
 
-% TODO: Navedite naslov na engleskom jeziku.
-\engtitle{Title}
+\engtitle{Methods for counting people in an image}
 \begin{abstract}
-Abstract.
+\input{tex/abstract.tex}
 
-\keywords{Keywords.}
+\keywords{neural networks, deep neural networks, convolutional neural networks, computer vision, pattern recognition, deep learning, Viola-Jones algorithm, Haar cascades, YOLO, trajectories tracking}
 \end{abstract}
 
 \end{document}

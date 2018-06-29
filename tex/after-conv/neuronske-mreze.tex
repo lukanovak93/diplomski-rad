@@ -4,17 +4,17 @@
 
 Neuronske mreže nastale su kao rezultat pokušaja reprodukcije rada ljudskog mozga.
 
-Osnovna gradivna jedinica ljudskog mozga jest neuron. Ljudski mozak sastavljen je od oko $10^11$ neurona kojih ima više od 100 vrsta i koji su shodno svojoj funkciji raspoređeni prema točno definiranom 
+Osnovna gradivna jedinica ljudskog mozga jest neuron. Ljudski mozak sastavljen je od oko $10^{11}$ neurona kojih ima više od 100 vrsta i koji su shodno svojoj funkciji raspoređeni prema točno definiranom 
 rasporedu. Svaki je neuron u prosjeku povezan s $10^4$ drugih neurona. Četiri su osnovna dijela neurona: tijelo stanice (soma), skup dendrita (ogranaka), aksona (dugačke cijevčice koje prenose električke poruke) i niza završnih članaka 
 
 \begin{figure}[htb]
 \centering
 \includegraphics[width=8cm]{img/Neuron.png}
-\caption{Građa neurona}
+\caption{Građa neurona \citep{cupicZbirka}}
 \label{img:human-neuron}
 \end{figure}
 
-Tijelo stanice sadrži informaciju predstavljenu električkim potencijalom između unutrašnjeg i vanjskog dijela stanice (oko –70 mV u neutralnom stanju). Na sinapsama, spojnom sredstvu dvaju neurona kojim su pokriveni dendriti, primaju se informacije od drugih neurona u vidu post-sinaptičkog potencijala koji utječe na potencijal stanice povećavajući (hiperpolarizacija) ili smanjivajući ga (depolarizacija). U tijelu stanice sumiraju se post-sinaptički potencijali tisuća susjednih neurona, u ovisnosti o vremenu dolaska ulaznih informacija. Ako ukupni napon pređe određeni prag, neuron "pali" i generira tzv. akcijski potencijal u trajanju od 1 ms. Kada se informacija akcijskim potencijalom prenese do završnih članaka, onda oni, ovisno o veličini potenijala, proizvode i otpuštaju kemikalije, tzv. neurotransmitere. To zatim ponovno inicira niz opisanih događaja u daljnjim neuronima. Propagacija impulsa očigledno je jednosmjerna. 
+Tijelo stanice sadrži informaciju predstavljenu električkim potencijalom između unutrašnjeg i vanjskog dijela stanice (oko –70 mV u neutralnom stanju). Na sinapsama, spojnom sredstvu dvaju neurona kojim su pokriveni dendriti, primaju se informacije od drugih neurona u vidu post-sinaptičkog potencijala koji utječe na potencijal stanice povećavajući (hiperpolarizacija) ili smanjivajući ga (depolarizacija). U tijelu stanice sumiraju se post-sinaptički potencijali tisuća susjednih neurona, u ovisnosti o vremenu dolaska ulaznih informacija. Ako ukupni napon pređe određeni prag, neuron "pali" i generira tzv. akcijski potencijal u trajanju od 1 ms. Kada se informacija akcijskim potencijalom prenese do završnih članaka, onda oni, ovisno o veličini potencijala, proizvode i otpuštaju kemikalije, tzv. neurotransmitere. To zatim ponovno inicira niz opisanih događaja u daljnjim neuronima. Propagacija impulsa očigledno je jednosmjerna. 
 
 Funkcionalnost biološkog neurona imitira McCulloch-Pitts model umjetnog neurona, tzv. \textit{Threshold Logic Unit} (TLU). Model koristi slijedeću analogiju: signali su opisani numeričkim iznosom i na ulazu u neuron množe se težinskim faktorom koji opisuje jakost sinapse; signali pomnoženi težinskim faktorima zatim se sumiraju analogno sumiranju potencijala u tijelu stanice; ako je dobiveni iznos iznad definirana praga, neuron daje izlazni signal. 
 
@@ -23,7 +23,7 @@ U općenitom slučaju, umjetni neuron umjesto funkcije praga može imati i neku 
 \begin{figure}[htb]
 \centering
 \includegraphics[width=8cm]{img/ArtificialNeuron.png}
-\caption{Umjetni neuron}
+\caption{Umjetni neuron \citep{cupicZbirka}}
 \label{img:artificial-neuron}
 \end{figure}
 
@@ -101,7 +101,7 @@ Adaline (\textit{engl. Adaptive Linear Element}) aktivacijska funkcija je prva a
 
 \begin{equation}
 f(net) = net
-\label{eq:Adaline aktivacijska funkcija}
+\label{eq:Adaline}
 \end{equation}
 
 Izlaz iz takve jedinice upravo je težinska suma njegovih ulaza. Dakle, izlaz odgovara općenitom modelu umjetnog neurona prikazanom na slici \ref{img:artificial-neuron}, a dan je izrazom \ref{eq:activation-function}.
@@ -116,7 +116,7 @@ f(net)=\left\{
      0 & $\textit{za net} $ < $ $ 0,\\
      1 & $\textit{inače}$
 \end{array}\right.
-\label{eq:Funkcija skoka}
+\label{eq:tlu}
 \end{equation}
 
 \begin{figure}[H]
@@ -135,7 +135,7 @@ f(net)=\left\{
      net & $\textit{za a} $ < $ \textit{net} $ < $ $ b,\\
      1   & $\textit{za net} $ \geq $ $ b
 \end{array}\right.
-\label{eq:Funkcija skoka koja je na dijelovima linearna}
+\label{eq:linear-tlu}
 \end{equation}
 
 \begin{figure}[H]
@@ -213,7 +213,7 @@ Kako bi neuronska mreža mogla predstaviti visoko nelinearne
 funkcije, potrebno je da prijenosna funkcija njezinih procesnih elemenata i sama bude
 nelinearna funkcija svojih ulaza. Nadalje, radi primjene gradijentne metode pri postupku
 učenja mreže, potrebno je da prijenosna funkcija bude derivabilna funkcija težinskih
-faktora. Backpropagation algoritam \citep{Backpropagation} nastao je 1970ih godina te omogućuje učenje višeslojnih neuronskih mreža.
+faktora. Backpropagation algoritam \citep{Backpropagation} nastao je 1980ih godina te omogućuje učenje višeslojnih neuronskih mreža.
 
 Algoritam koristi metodu gradijentnog spusta kako bi minimizirao nastalu pogrešku.
 Kod višeslojne mreže izlazni sloj može sačinjavati veći broj neurona, te je potrebno
